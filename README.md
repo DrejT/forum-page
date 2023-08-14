@@ -1,6 +1,6 @@
-### Contributing
+## Contributing
 
-#### Starting a local development server
+### Starting a local development server
 
 ```bash
 $ git clone https://github.com/DrejT/forum-page/
@@ -16,7 +16,7 @@ $ npm run dev  # start the local server
 
 now, the visit http://localhost:5173
 
-#### steps to create your own branch:
+### steps to create your own branch:
 
 ```bash
 $ git branch  # list down all the local branches the current branch has a *
@@ -27,12 +27,12 @@ $ git branch <my_new_branch_name> # creates a new branch
 ```
 
 ```bash
-$ git checkout -b <branch_name>   # switches your branch to the specified branch
+$ git checkout <branch_name>   # switches your branch to the specified branch
 ```
 
 this is how you can work with branches locally while developing
 
-#### pushing changes
+### pushing changes
 
 don't push to the main branch, instead create a new branch, develop on it.
 For pushing those changes to your the github repository follow the below steps
