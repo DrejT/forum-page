@@ -1,0 +1,28 @@
+{
+  "name": "forum-server",
+  "version": "1.0.0",
+  "description": "server for forum",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": "npm i"
+  },
+  "keywords": [
+    "forum"
+  ],
+  "author": "",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongodb": "^5.7.0",
+    "mongoose": "^7.4.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.47.0",
+    "nodemon": "^3.0.1"
+  }
+}
