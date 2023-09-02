@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("./../models/user");
+const { validateUserFields } = require("../utils/validate");
 
 // get all users
 router.get("/", async (req,res) => {
@@ -19,11 +20,23 @@ router.get("/:id", getUser,async (req,res) => {
 
 // create a new user
 router.post("/", async (req,res) => {
-    const user = await User.create({
-        "username": req.body.username,
-        "email": req.body.email,
-        "password": req.body.password
-    });
+    const validUserFields = await validateUserFields(
+        req.body.username,
+        req.body.email,
+        req.body.password,
+        );
+    console.log(validUserFields);
+    if (validUserFields.username && validUserFields.email && validUserFields.password){
+        const user = await User.create({
+            "username": req.body.username,
+            "email": req.body.email,
+            "password": req.body.password,
+            "role":req.body.role==="admin"?"admin":"user"
+        });
+    } else {
+        return res.status(400).json({message:"user was not created. Please try again"});
+    }
+
     try {
         const newUser = await user.save();
         res.status(201).json(newUser);
@@ -34,14 +47,18 @@ router.post("/", async (req,res) => {
 
 // update the category of a user
 router.patch("/:id", getUser, async (req,res) => {
-    if (req.body.email != null){
+    const validUserFields = await validateUserFields(req.body.username, req.body.email, req.body.password);
+    if (validUserFields.password){
+        res.user.password = req.body.password;
+    }
+    if (validUserFields.email){
         res.user.email = req.body.email;
     }
     try {
         const updatedUser = await res.user.save();
         res.status(200).json(updatedUser);
     } catch (err) {
-        res.status(400).json({message:err.message})
+        res.status(400).json({message:"Please enter a valid email id or username"})
     }
 })
 
