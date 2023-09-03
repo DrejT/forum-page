@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 
 const threadSchema = new mongoose.Schema({
     title: { type: String, required: true },
-    description: { type: String, required: true},
-    author: { type: mongoose.Schema.Types.ObjectId, ref:"User"},
+    creator: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
-    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+    category: [{ type: String, required: true }],
 });
 
 module.exports = mongoose.model("Thread", threadSchema);

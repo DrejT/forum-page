@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Thread = require("./../models/thread");
-const User = require("./../models/user");
-const { fetchUser } = require("../utils/validate");
 
 // get all threads
 router.get("/", async (req,res) => {
@@ -21,40 +19,32 @@ router.get("/:id", getThread, async (req,res) => {
 
 // create a new thread
 router.post("/", async (req,res) => {
-    let author;
-    try {
-        const aID = req.body.author; // get the user by id
-        author = await fetchUser(aID);
-        if (author.role == "user"){
-            return res.json({message:"permission denied"})
-        }
-    } catch (err) {
-        return res.status(400).json({message:err.error});
-    }
-
     const thread = await Thread.create({
         "title": req.body.title,
-        "description":req.body.description,
-        "author":author,
+        "creator": req.body.creator,
+        "category": req.body.category
     });
     try {
         const newThread = await thread.Save();
-        return res.status(201).json({message:"thread created"});
+        console.log(newThread);
+        res.status(201).json({message:"thread created"});
     } catch (err) {
-        return res.status(400).json({message:err.error});
+        res.status(400).json({message:err.error});
     }
 })
 
-// update the title and description of a thread
+// update the category of a thread
 router.patch("/:id", getThread, async (req,res) => {
+    console.log("body is", req.body);
     if (req.body.title != null){
         res.thread.title = req.body.title;
     }
-    if (req.body.description != null){
-        res.thread.description = req.body.description;
+    if (req.body.category != null){
+        res.thread.category = req.body.category;
     }
     try {
         const updatedThread = await res.thread.save();
+        console.log("updated thread is ",updatedThread);
         res.status(200).json(updatedThread);
     } catch (err) {
         res.status(400).json({message:err.message})

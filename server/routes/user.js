@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const User = require("./../models/user");
-const { validateUserFields } = require("../utils/validate");
 
 // get all users
 router.get("/", async (req,res) => {
@@ -26,7 +25,7 @@ router.post("/", async (req,res) => {
         req.body.password,
         );
     console.log(validUserFields);
-    let user = null;
+    let user = null
     if (validUserFields.username && validUserFields.email && validUserFields.password){
         user = await User.create({
             "username": req.body.username,
@@ -51,18 +50,14 @@ router.post("/", async (req,res) => {
 
 // update the category of a user
 router.patch("/:id", getUser, async (req,res) => {
-    const validUserFields = await validateUserFields(req.body.username, req.body.email, req.body.password);
-    if (validUserFields.password){
-        res.user.password = req.body.password;
-    }
-    if (validUserFields.email){
+    if (req.body.email != null){
         res.user.email = req.body.email;
     }
     try {
         const updatedUser = await res.user.save();
         res.status(200).json(updatedUser);
     } catch (err) {
-        res.status(400).json({message:"Please enter a valid email id or username"})
+        res.status(400).json({message:err.message})
     }
 })
 
