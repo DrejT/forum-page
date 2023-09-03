@@ -26,8 +26,9 @@ router.post("/", async (req,res) => {
         req.body.password,
         );
     console.log(validUserFields);
+    let user = null;
     if (validUserFields.username && validUserFields.email && validUserFields.password){
-        const user = await User.create({
+        user = await User.create({
             "username": req.body.username,
             "email": req.body.email,
             "password": req.body.password,
@@ -39,7 +40,10 @@ router.post("/", async (req,res) => {
 
     try {
         const newUser = await user.save();
-        res.status(201).json(newUser);
+        res.status(201).json({
+            user:newUser,
+            message:"user created successfully"
+        });
     } catch (err) {
         res.status(400).json({message:err.error});
     }

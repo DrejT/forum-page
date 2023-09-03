@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const cors = require("cors");
 const threads = require("./routes/thread");
 const users = require("./routes/user");
 const posts = require("./routes/post");
@@ -22,6 +23,7 @@ db.once('open', () => {
 // express config
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use("/thread", threads );
 app.use("/user", users);
 app.use("/post", posts);

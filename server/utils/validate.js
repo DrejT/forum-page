@@ -12,7 +12,7 @@ async function fetchUser(id){
 
 // validate the username field
 async function validateUserName(username){
-    if (username==undefined){
+    if (typeof username !== "string"){
         return false;
     }
     const checkArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", 
@@ -30,7 +30,7 @@ async function validateUserName(username){
 
 // validate email field
 async function validateEmail(email){
-    if (email==undefined){
+    if (typeof email !== "string"){
         return false;
     }
     const emailRegExp = /^[A-Za-z0-9._%-]+@vcet\.edu\.in$/;
@@ -43,11 +43,11 @@ async function validateEmail(email){
 
 // validate password field
 async function validatePassword(password){
-    if (password == undefined){
+    if ( typeof password !== "string"){
         return false;
     }
     if (password.length > 8){
-        return password;
+        return true;
     } else {
         return null
     }
