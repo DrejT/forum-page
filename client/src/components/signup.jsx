@@ -14,6 +14,11 @@ export default function Signup(){
         <label htmlFor="password">Password</label>
         <input type="password" name="password" minLength="8" />
         <button type="submit">Register</button>
+        {typeof user === "string" ?
+        <>
+        <p>{user}</p>
+        </>:
+        <></>}
       </Form>
     </div>
   )

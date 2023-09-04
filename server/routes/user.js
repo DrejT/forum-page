@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("./../models/user");
+const {validateUserFields, fetchUser} = require("./../utils/validate");
 
 // get all users
 router.get("/", async (req,res) => {
@@ -25,7 +26,7 @@ router.post("/", async (req,res) => {
         req.body.password,
         );
     console.log(validUserFields);
-    let user = null
+    let user;
     if (validUserFields.username && validUserFields.email && validUserFields.password){
         user = await User.create({
             "username": req.body.username,
@@ -34,14 +35,18 @@ router.post("/", async (req,res) => {
             "role":req.body.role==="admin"?"admin":"user"
         });
     } else {
-        return res.status(400).json({message:"user was not created. Please try again"});
+        let e;
+        for (key in validUserFields){
+            if (validUserFields[key] === false){ e = key}
+        }
+        return res.status(400).json({message:`user was not created. Please enter a valid ${key} field`});
     }
 
     try {
         const newUser = await user.save();
         res.status(201).json({
             user:newUser,
-            message:"user created successfully"
+            message:"user created successfully",
         });
     } catch (err) {
         res.status(400).json({message:err.error});

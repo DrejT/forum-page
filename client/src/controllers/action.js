@@ -9,21 +9,27 @@ export async function signupAction({request,params}){
     const username = formData.get("username");
     const email = formData.get("email");
     const password = formData.get("password");
-    axios.post(serverAddress, {
-      username:username,
-      email:email,
-      password:password
-    },{
+    let data;
+    try {
+      const res = await fetch( serverAddress, {
+        method:"POST",
         headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(async function (response) {
-        console.log("response",response.data.message);
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username:username,
+          email:email,
+          password:password
+        }),
+      });
+      data = await res.json();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      if (data.message === "user created successfully"){
         return redirect("/login");
-      })
-    .catch(async function (error) {
-        console.log(error.response.data.message);
-    });
-    console.log("exiting")
-    return null;
+      } else {
+        return data.message;
+      }
+    }
 }
