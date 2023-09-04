@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Link } from "react-router-dom"
 
 const Navbar = () => {
@@ -15,14 +14,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-=======
-export default function Navbar(){
-    return (
-        <>
-        <div>
-            
-        </div>
-        </>
-    )
-}
->>>>>>> parent of f33e465 (updated)
