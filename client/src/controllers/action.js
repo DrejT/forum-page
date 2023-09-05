@@ -19,7 +19,8 @@ export async function signupAction({request,params}){
         body: JSON.stringify({
           username:username,
           email:email,
-          password:password
+          password:password,
+          formtype:"signup"
         }),
       });
       data = await res.json();
@@ -32,4 +33,39 @@ export async function signupAction({request,params}){
         return data.message;
       }
     }
+}
+
+
+// runs when the login form is submitted
+export async function loginAction(req,params){
+  const formdata = await request.formData;
+  const username = formdata.get("username");
+  const password = formdata.get("password");
+  let data;
+    try {
+      const res = await fetch( serverAddress, {
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username:username,
+          email:email,
+          password:password,
+          formtype:"login"
+        }),
+      });
+      data = await res.json();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      if (data.message === "login successful"){
+        return redirect("/");
+      } else {
+        return data.message;
+      }
+    }
+
+
+  return
 }

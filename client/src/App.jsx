@@ -1,6 +1,5 @@
 import Layout from './pages/layout/layout';
 
-
 function App() {
   return (
     <>

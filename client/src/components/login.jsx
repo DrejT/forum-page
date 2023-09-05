@@ -4,7 +4,7 @@ const Login = () => {
   return (
     <div>
       <h3>Log In</h3>
-      <Form method="get" action="/login">
+      <Form method="get">
         <label name="username">Username</label>
       <input type="text" name="username" />
       <label name="password">Password</label>

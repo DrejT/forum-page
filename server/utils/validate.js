@@ -10,6 +10,35 @@ async function fetchUser(id){
     }
 }
 
+// checks if a username already exists in the db
+async function existingUsername(username){
+    let user;
+    try {
+        user = await User.findOne({username:username})
+        if (user?.username === username){
+            return true;
+        } else {
+            return false;
+        }
+    } catch (err){
+        console.error(err);
+    }
+}
+
+// checks if the email is already used
+async function existingEmail(email){
+    try {
+        const user = await User.findOne({email:email})
+        if (user !== null){
+            return true
+        } else {
+            return false
+        }
+    } catch (err){
+        console.error(err);
+    }
+}
+
 // validate the username field
 async function validateUserName(username){
     if (typeof username !== "string"){
@@ -24,7 +53,7 @@ async function validateUserName(username){
     if (username.length > 4 && nameArr.every((el) => checkArr.includes(el))){
         return true;
     } else {
-        return null;
+        return false;
     }
 }
 
@@ -46,25 +75,49 @@ async function validatePassword(password){
     if ( typeof password !== "string"){
         return false;
     }
-    if (password.length > 8){
+    if (password.length >= 8){
         return true;
     } else {
-        return null
+        return false
     }
 }
+
+async function invalidFields(validUserFields, existBool){
+    for (let key in validUserFields) {
+        if (validUserFields[key] === false) {
+            return { message: `Please enter a valid ${key} field` };
+        }
+    for (let key in existBool) {
+        if (existBool[key] === true) {
+            return { message: `a user with the ${key} already exists` };
+        }
+    }
+}
+
+}
+
 
 async function validateUserFields(username, email, password){
     const usernameBool = await validateUserName(username);
     const emailBool = await validateEmail(email)
     const passwordBool = await validatePassword(password);
-    return {
+    let usernameExistBool, emailExistBool;
+    if (usernameBool && emailBool && passwordBool){
+        usernameExistBool = await existingUsername(username);
+        emailExistBool = await existingEmail(email);
+    }
+    return [{
         username:usernameBool,
         password:passwordBool,
-        email:emailBool
-    }
+        email:emailBool,
+    }, {
+        username:usernameExistBool,
+        email:emailExistBool
+    }]
 }
 
 module.exports = {
     fetchUser,
     validateUserFields,
+    invalidFields
 }
