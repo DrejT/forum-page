@@ -22,6 +22,7 @@ async function existingUsername(username){
         }
     } catch (err){
         console.error(err);
+        return false;
     }
 }
 
@@ -41,9 +42,6 @@ async function existingEmail(email){
 
 // validate the username field
 async function validateUserName(username){
-    if (typeof username !== "string"){
-        return false;
-    }
     const checkArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", 
     "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
@@ -59,9 +57,6 @@ async function validateUserName(username){
 
 // validate email field
 async function validateEmail(email){
-    if (typeof email !== "string"){
-        return false;
-    }
     const emailRegExp = /^[A-Za-z0-9._%-]+@vcet\.edu\.in$/;
     if (emailRegExp.test(email)){
         return true;
@@ -72,9 +67,6 @@ async function validateEmail(email){
 
 // validate password field
 async function validatePassword(password){
-    if ( typeof password !== "string"){
-        return false;
-    }
     if (password.length >= 8){
         return true;
     } else {
@@ -82,30 +74,50 @@ async function validatePassword(password){
     }
 }
 
-async function invalidFields(validUserFields, existBool){
+async function invalidFields(validUserFields, existBool, formtype){
     for (let key in validUserFields) {
         if (validUserFields[key] === false) {
-            return { message: `Please enter a valid ${key} field` };
+            return { message: `Please enter a valid ${key} field.` };
         }
     for (let key in existBool) {
-        if (existBool[key] === true) {
-            return { message: `a user with the ${key} already exists` };
+        switch (formtype){
+            case "signup":
+                if (existBool[key] === true) {
+                    return { message: `A user with the ${key} already exists.` };
+                }
+                break;
+            case "login":
+                if (existBool[key] === false) {
+                    return { message: `The user ${key} does not exist.` };
+                }
+                break;
         }
+        
     }
 }
-
 }
 
 
-async function validateUserFields(username, email, password){
-    const usernameBool = await validateUserName(username);
-    const emailBool = await validateEmail(email)
-    const passwordBool = await validatePassword(password);
+async function validateUserFields(username, email, password, formtype){
+    const usernameBool = typeof username !== "string"?false:await validateUserName(username);
+    const emailBool = typeof email !== "string"?false:await validateEmail(email);
+    const passwordBool = typeof password !== "string"?false:await validatePassword(password);
     let usernameExistBool, emailExistBool;
-    if (usernameBool && emailBool && passwordBool){
-        usernameExistBool = await existingUsername(username);
-        emailExistBool = await existingEmail(email);
-    }
+    switch (formtype){
+        case "signup":
+            if (usernameBool && emailBool && passwordBool){
+                usernameExistBool = typeof username !== "string"?false:await existingUsername(username);
+                emailExistBool = typeof email !== "string"?false:await existingEmail(email);
+            }
+            break;
+        case "login":
+            if (usernameBool && passwordBool){
+                usernameExistBool = typeof username !== "string"?false:await existingUsername(username);
+                emailExistBool = typeof email !== "string"?false:await existingEmail(email);
+            }
+            break;
+        }
+    
     return [{
         username:usernameBool,
         password:passwordBool,

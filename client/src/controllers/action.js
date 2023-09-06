@@ -1,4 +1,3 @@
-import axios from "axios";
 import { redirect } from "react-router-dom";
 
 const serverAddress = "http://localhost:3000/user";
@@ -37,8 +36,8 @@ export async function signupAction({request,params}){
 
 
 // runs when the login form is submitted
-export async function loginAction(req,params){
-  const formdata = await request.formData;
+export async function loginAction({request,params}){
+  const formdata = await request.formData();
   const username = formdata.get("username");
   const password = formdata.get("password");
   let data;
@@ -50,7 +49,6 @@ export async function loginAction(req,params){
         },
         body: JSON.stringify({
           username:username,
-          email:email,
           password:password,
           formtype:"login"
         }),
@@ -59,13 +57,11 @@ export async function loginAction(req,params){
     } catch (error) {
       console.log(error);
     } finally {
+      console.log(data);
       if (data.message === "login successful"){
         return redirect("/");
       } else {
         return data.message;
       }
     }
-
-
-  return
 }

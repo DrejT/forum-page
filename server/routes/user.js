@@ -24,6 +24,7 @@ router.post("/", async (req, res) => {
         req.body.username,
         req.body.email,
         req.body.password,
+        req.body.formtype
     );
     console.log(validUserFields, existBool, req.body.formtype);
     switch (req.body.formtype) {
@@ -62,7 +63,8 @@ router.post("/", async (req, res) => {
             } else {
                 const exitResponse = await invalidFields(
                     validUserFields,
-                    existBool
+                    existBool,
+                    req.body.formtype
                     )
                 return res.json(exitResponse);
             }
@@ -71,25 +73,32 @@ router.post("/", async (req, res) => {
             if (
                 // runs when the user already exists and wants to login
                 validUserFields.username
-                && validUserFields.email
+                && validUserFields.password
                 && existBool.username
-                && existBool.email
                 && req.body.formtype === "login") {
                 const user = await User.findOne({
                     username: req.body.username,
-                    email: req.body.email
                 });
                 if (user.password === req.body.password) {
                     user.password = "";
-                    return res.status(200).json(user);
+                    return res.status(200).json({"user":user,"message":"login successful"});
                 } else {
-                    return res.json({ message: "incorrect password" });
+                    return res.status(400).json({message:"password is incorrect"})
                 }
-                break;
+            } else {
+                // explicitly set the email field to be true
+                // to ensure that it wont be treated as an error
+                existBool.email = true;
+                const exitResponse = await invalidFields(
+                    validUserFields,
+                    existBool,
+                    req.body.formtype
+                    )
+                console.log("exiting", validUserFields, existBool)
+                return res.status(400).json(exitResponse);
             }
         default:
-            
-        return res.status(400).json({ message: `Please enter a valid formtype field` });
+            return res.status(400).json({ message: `Please enter a valid formtype field` });
     }
 });
 
