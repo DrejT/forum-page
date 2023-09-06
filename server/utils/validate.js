@@ -10,11 +10,38 @@ async function fetchUser(id){
     }
 }
 
-// validate the username field
-async function validateUserName(username){
-    if (typeof username !== "string"){
+// checks if a username already exists in the db
+async function existingUsername(username){
+    let user;
+    try {
+        user = await User.findOne({username:username})
+        if (user?.username === username){
+            return true;
+        } else {
+            return false;
+        }
+    } catch (err){
+        console.error(err);
         return false;
     }
+}
+
+// checks if the email is already used
+async function existingEmail(email){
+    try {
+        const user = await User.findOne({email:email})
+        if (user !== null){
+            return true
+        } else {
+            return false
+        }
+    } catch (err){
+        console.error(err);
+    }
+}
+
+// validate the username field
+async function validateUserName(username){
     const checkArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", 
     "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
@@ -24,15 +51,12 @@ async function validateUserName(username){
     if (username.length > 4 && nameArr.every((el) => checkArr.includes(el))){
         return true;
     } else {
-        return null;
+        return false;
     }
 }
 
 // validate email field
 async function validateEmail(email){
-    if (typeof email !== "string"){
-        return false;
-    }
     const emailRegExp = /^[A-Za-z0-9._%-]+@vcet\.edu\.in$/;
     if (emailRegExp.test(email)){
         return true;
@@ -43,28 +67,69 @@ async function validateEmail(email){
 
 // validate password field
 async function validatePassword(password){
-    if ( typeof password !== "string"){
-        return false;
-    }
-    if (password.length > 8){
+    if (password.length >= 8){
         return true;
     } else {
-        return null
+        return false
     }
 }
 
-async function validateUserFields(username, email, password){
-    const usernameBool = await validateUserName(username);
-    const emailBool = await validateEmail(email)
-    const passwordBool = await validatePassword(password);
-    return {
+async function invalidFields(validUserFields, existBool, formtype){
+    for (let key in validUserFields) {
+        if (validUserFields[key] === false) {
+            return { message: `Please enter a valid ${key} field.` };
+        }
+    for (let key in existBool) {
+        switch (formtype){
+            case "signup":
+                if (existBool[key] === true) {
+                    return { message: `A user with the ${key} already exists.` };
+                }
+                break;
+            case "login":
+                if (existBool[key] === false) {
+                    return { message: `The user ${key} does not exist.` };
+                }
+                break;
+        }
+        
+    }
+}
+}
+
+
+async function validateUserFields(username, email, password, formtype){
+    const usernameBool = typeof username !== "string"?false:await validateUserName(username);
+    const emailBool = typeof email !== "string"?false:await validateEmail(email);
+    const passwordBool = typeof password !== "string"?false:await validatePassword(password);
+    let usernameExistBool, emailExistBool;
+    switch (formtype){
+        case "signup":
+            if (usernameBool && emailBool && passwordBool){
+                usernameExistBool = typeof username !== "string"?false:await existingUsername(username);
+                emailExistBool = typeof email !== "string"?false:await existingEmail(email);
+            }
+            break;
+        case "login":
+            if (usernameBool && passwordBool){
+                usernameExistBool = typeof username !== "string"?false:await existingUsername(username);
+                emailExistBool = typeof email !== "string"?false:await existingEmail(email);
+            }
+            break;
+        }
+    
+    return [{
         username:usernameBool,
         password:passwordBool,
-        email:emailBool
-    }
+        email:emailBool,
+    }, {
+        username:usernameExistBool,
+        email:emailExistBool
+    }]
 }
 
 module.exports = {
     fetchUser,
     validateUserFields,
+    invalidFields
 }

@@ -11,7 +11,8 @@ import {
   Signup,
 } from './components/compload.jsx';
 import {
-  signupAction
+  signupAction,
+  loginAction
 } from "./controllers/action.js"
 import Home from './pages/home/home.jsx';
 
@@ -27,7 +28,8 @@ const router = createBrowserRouter([
     },
       {
       path: "login",
-      element: <Login/>
+      element: <Login/>,
+      action: loginAction
     },
     {
       path: "signup",
