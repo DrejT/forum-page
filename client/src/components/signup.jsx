@@ -1,4 +1,4 @@
-import { Form, useActionData } from "react-router-dom";
+import { Form, Link, useActionData } from "react-router-dom";
 
 export default function Signup(){
   const user = useActionData();
@@ -13,6 +13,7 @@ export default function Signup(){
         <label htmlFor="password">Password</label>
         <input type="password" name="password" minLength="4" />
         <button type="submit">Register</button>
+        <p>Already registered?<Link to="/login">Login here</Link></p>
         {typeof user === "string" ?
         <>
         <p>{user}</p>

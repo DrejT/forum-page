@@ -1,4 +1,5 @@
 import { redirect } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const serverAddress = "http://localhost:3000/user";
 
@@ -57,8 +58,9 @@ export async function loginAction({request,params}){
     } catch (error) {
       console.log(error);
     } finally {
-      console.log(data);
       if (data.message === "login successful"){
+        console.log(data);
+        Cookies.set("userid", data.user._id, { expires: 3 });
         return redirect("/");
       } else {
         return data.message;
