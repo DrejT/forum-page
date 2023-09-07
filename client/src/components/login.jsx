@@ -2,7 +2,6 @@ import { Form, Link, useActionData, useLoaderData } from "react-router-dom"
 
 function Login(){
   const user = useActionData();
-  const load = useLoaderData();
   return (
     <div>
       <h3>Log In</h3>

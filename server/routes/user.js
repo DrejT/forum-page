@@ -13,8 +13,10 @@ router.get("/", async (req, res) => {
     }
 })
 
-// get a particular user
+// get a particular user from their user id
 router.get("/:id", getUser, async (req, res) => {
+    res.user.password = "";
+    res.user.email = "";
     res.send(res.user);
 })
 

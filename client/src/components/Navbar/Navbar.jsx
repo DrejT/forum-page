@@ -4,14 +4,14 @@ const Navbar = () => {
   const layoutData = useRouteLoaderData("layout");
   return (
     <div>
-      <nav>
+      <nav className="">
         <Link to="/">Home</Link> |
         <Link to="about">About</Link> |
         <Link to="#">Portfolio</Link> |
         {
           layoutData?(
             <>
-            <Link to=":username"> {layoutData.username}!</Link>
+            <Link to={layoutData.username}>{layoutData.username}!</Link>
             </>
           ):(
             <>

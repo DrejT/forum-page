@@ -21,29 +21,29 @@ import Username from './pages/:username/username.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
-    id:"layout",
-    element: <App/>,
+    id: "layout",
+    element: <App />,
     loader: layoutLoader,
-    errorElement: <Notfound/>,
-    children:[
-    {
-      path: "/",
-      element: <Home/>
-    },
+    errorElement: <Notfound />,
+    children: [
       {
-      path: "login",
-      element: <Login/>,
-      action: loginAction
-    },
-    {
-      path: "signup",
-      element: <Signup/>,
-      action: signupAction,
-    },{
-      path:":username",
-      element:<Username/>,
-    }
-  ]
+        path: "/",
+        element: <Home />
+      },
+      {
+        path: "login",
+        element: <Login />,
+        action: loginAction
+      },
+      {
+        path: "signup",
+        element: <Signup />,
+        action: signupAction,
+      }, {
+        path: ":username",
+        element: <Username />,
+      }
+    ]
   },
 ]);
 
