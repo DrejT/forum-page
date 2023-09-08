@@ -7,11 +7,11 @@ const Navbar = () => {
       <nav className="">
         <Link to="/">Home</Link> |
         <Link to="about">About</Link> |
-        <Link to="#">Portfolio</Link> |
+        <Link to="/">Portfolio</Link> |
         {
           layoutData?(
             <>
-            <Link to={layoutData.username}>{layoutData.username}!</Link>
+            <Link to={"u/"+layoutData.username}>{layoutData.username}!</Link>
             </>
           ):(
             <>

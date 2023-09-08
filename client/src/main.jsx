@@ -12,11 +12,17 @@ import {
 } from './components/compload.jsx';
 import {
   signupAction,
-  loginAction
+  loginAction,
 } from "./controllers/action.js"
 import Home from './pages/home/home.jsx';
-import { layoutLoader } from './controllers/loader.js';
+import { 
+  layoutLoader,
+  usernameLoader,
+  searchUsernameLoader
+ } from './controllers/loader.js';
 import Username from './pages/:username/username.jsx';
+import Post from './pages/:username/new/post.jsx';
+import U from './pages/U/U.jsx';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +33,7 @@ const router = createBrowserRouter([
     errorElement: <Notfound />,
     children: [
       {
-        path: "/",
+        index:true,
         element: <Home />
       },
       {
@@ -39,10 +45,25 @@ const router = createBrowserRouter([
         path: "signup",
         element: <Signup />,
         action: signupAction,
-      }, {
-        path: ":username",
-        element: <Username />,
-      }
+      },
+      {
+        path: "u",
+        element: <U />,
+        loader: searchUsernameLoader,
+        children: [
+          {
+            path: ":username",
+            element: <Username />,
+            loader: usernameLoader,
+            children: [
+              {
+                path: "new",
+                element: <Post />
+              }
+            ]
+          }
+        ]
+      },
     ]
   },
 ]);

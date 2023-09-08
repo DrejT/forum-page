@@ -2,27 +2,51 @@ import Cookies from "js-cookie";
 
 const serverAddress = "http://localhost:3000/"
 
-async function fetchUserById(userid){
-    const data = await fetch(serverAddress+"user/"+userid);
+async function fetchUserById(userid) {
+    const data = await fetch(serverAddress + "user/id/" + userid);
     const user = await data.json();
     return user;
 }
 
-export function getUserId(){
+export function getUserId() {
     const userid = Cookies.get("userid");
-    if (userid){
+    if (userid) {
         return userid;
     } else {
         return null;
     }
 }
 
-export async function layoutLoader({request, params}){
+export async function layoutLoader({ request, params }) {
     const userid = getUserId();
-    if (userid){
+    if (userid) {
         const user = await fetchUserById(userid);
         return user;
     } else {
         return null;
+    }
+}
+
+export async function usernameLoader({ request, params }) {
+    const username = params.username;
+    const data = await fetch(serverAddress + "user/" + username);
+    const user = await data.json();
+    if (user.message) {
+        return null;
+    } else {
+        return user;
+    }
+}
+
+export async function searchUsernameLoader({ request, params }) {
+    let url = new URL(request.url);
+    let username = url.searchParams.get("username");
+    if (username){
+        const data = await fetch(serverAddress + "user/" + username);
+        const user = await data.json();
+        console.log("this is useer",user)
+        return user
+    } else {
+        return null
     }
 }

@@ -6,9 +6,9 @@ function Login(){
     <div>
       <h3>Log In</h3>
       <Form method="post">
-        <label name="username">Username</label>
+        <label htmlFor="username">Username</label>
       <input type="text" name="username" />
-      <label name="password">Password</label>
+      <label htmlFor="password">Password</label>
       <input type="password" name="password" />
       <button type="submit">Login</button>
     </Form>

@@ -13,12 +13,27 @@ router.get("/", async (req, res) => {
     }
 })
 
-// get a particular user from their user id
-router.get("/:id", getUser, async (req, res) => {
+// get a particular user from their username
+router.get("/:username", getUser, async (req, res) => {
     res.user.password = "";
     res.user.email = "";
     res.send(res.user);
 })
+
+router.get("/id/:id", async (req, res) => {
+    let user
+    try {
+        user = await User.findById(req.params.id);
+        if (user == null) {
+            return res.status(404).json({ message: "user not found" });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: "internal server error" });
+    }
+    user.password = "";
+    user.email = "";
+    res.send(user);
+});
 
 // create a new user
 router.post("/", async (req, res) => {
@@ -105,7 +120,7 @@ router.post("/", async (req, res) => {
 });
 
 // update the category of a user
-router.patch("/:id", getUser, async (req, res) => {
+router.patch("/:username", getUser, async (req, res) => {
     if (req.body.email != null) {
         res.user.email = req.body.email;
     }
@@ -118,9 +133,9 @@ router.patch("/:id", getUser, async (req, res) => {
 })
 
 // dekete an existing user
-router.delete("/:id", getUser, async (req, res) => {
+router.delete("/:username", getUser, async (req, res) => {
     try {
-        await res.user.deleteOne({ id: req.params.id });
+        await res.user.deleteOne({ username: req.params.username });
         res.json({ message: "user deleted" });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -130,7 +145,7 @@ router.delete("/:id", getUser, async (req, res) => {
 async function getUser(req, res, next) {
     let user
     try {
-        user = await User.findById(req.params.id);
+        user = await User.findOne({username:req.params.username});
         if (user == null) {
             return res.status(404).json({ message: "user not found" });
         }
