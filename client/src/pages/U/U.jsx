@@ -1,8 +1,7 @@
-import { Form, Outlet, useLoaderData } from "react-router-dom"
+import { Form, Link, Outlet, useLoaderData } from "react-router-dom"
 
 export default function U() {
     const queryData = useLoaderData()
-    console.log("this is the querydata ", queryData)
     return (
         <>
             <div>
@@ -17,7 +16,8 @@ export default function U() {
                     ) : queryData.message ? (
                         <>{queryData.message}</>
                     ) : (
-                        <>{queryData._id}</>
+                        <>
+                        <Link to={queryData.username}>{queryData.username}</Link></>
                     )}
                 </div>
             </div>

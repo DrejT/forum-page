@@ -44,7 +44,6 @@ export async function searchUsernameLoader({ request, params }) {
     if (username){
         const data = await fetch(serverAddress + "user/" + username);
         const user = await data.json();
-        console.log("this is useer",user)
         return user
     } else {
         return null

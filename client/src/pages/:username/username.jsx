@@ -4,29 +4,24 @@ import { Link } from "react-router-dom";
 export default function Username(){
     const loaderData = useLoaderData();
     const loggedIn = useRouteLoaderData("layout")
-    console.log("loggedin as", loggedIn)
     return (
         <div>
             {
-                (loaderData._id === loaderData._id)?(
+                loaderData === null ? (
+                    <>User not found</>
+                ):(
                     <>
-            <p>Hello {loaderData.username}</p>
-            <p>{loaderData.createdAt}</p>
-            <p>Your role is {loaderData.role}</p>
-            {
-                loggedIn?(
-            <Link to="new">Create post</Link>
+                    <h3>{loaderData.username}</h3></>
+                )
+            }
+            <>{
+                loaderData._id === loggedIn._id ? (
+                    <>create new <Link to="new">post</Link></>
                 ):(
                     <></>
                 )
             }
-                    </>
-                ):(
-                    <>
-                    User Not Found
-                    </>
-                )
-            }
+            </>
         </div>
     )
 }
