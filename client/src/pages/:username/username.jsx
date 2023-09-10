@@ -1,4 +1,4 @@
-import { useLoaderData, useRouteLoaderData } from "react-router-dom"
+import { Outlet, useLoaderData, useRouteLoaderData } from "react-router-dom"
 import { Link } from "react-router-dom";
 
 export default function Username(){
@@ -16,7 +16,17 @@ export default function Username(){
             }
             <>{
                 loaderData._id === loggedIn._id ? (
-                    <>create new <Link to="new">post</Link></>
+                    <>
+                    create new <Link to="new">post</Link>
+                    <Outlet/>
+                    {loaderData.role === "admin" ? (
+                        <>
+                        <h4>You are an Admin</h4>
+                        </>
+                    ):(
+                        <></>
+                    )}
+                    </>
                 ):(
                     <></>
                 )

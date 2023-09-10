@@ -19,11 +19,14 @@ export function getUserId() {
 
 export async function layoutLoader({ request, params }) {
     const userid = getUserId();
-    if (userid) {
+    if (userid !== "guest") {
         const user = await fetchUserById(userid);
         return user;
     } else {
-        return null;
+        Cookies.set("userid", "guest");
+        return {
+            userid:"guest"
+        };
     }
 }
 
