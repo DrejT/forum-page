@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("./../models/user");
 const { validateUserFields, invalidFields } = require("./../utils/validate");
+const { createHash, compareHash } = require("./../utils/hashValidate")
 
 // get all users
 router.get("/", async (req, res) => {
@@ -57,10 +58,11 @@ router.post("/", async (req, res) => {
                 && existBool.email === false
             ) {
                 try {
+                    const passwordHash = await createHash(req.body.password);
                     const user = await User.create({
                         "username": req.body.username,
                         "email": req.body.email,
-                        "password": req.body.password,
+                        "password": passwordHash,
                         "role": req.body.role === "admin" ? "admin" : "user"
                     });
                     const newUser = await user.save();
@@ -96,7 +98,8 @@ router.post("/", async (req, res) => {
                 const user = await User.findOne({
                     username: req.body.username,
                 });
-                if (user.password === req.body.password) {
+                const validPassword = await compareHash(req.body.password, user.password);
+                if (validPassword) {
                     user.password = "";
                     return res.status(200).json({"user":user,"message":"login successful"});
                 } else {

@@ -2,7 +2,6 @@ import { Link, useRouteLoaderData } from "react-router-dom"
 
 const Navbar = () => {
   const layoutData = useRouteLoaderData("layout");
-  console.log("this is the layout", layoutData);
   return (
     <div>
       <nav className="">
@@ -10,7 +9,7 @@ const Navbar = () => {
         <Link to="about">About</Link> |
         <Link to="/">Portfolio</Link> |
         {
-          layoutData.userid !== "guest" ? (
+          layoutData !== "guest" ? (
             <>
             <Link to={"u/"+layoutData.username}>{layoutData.username}!</Link>
             </>

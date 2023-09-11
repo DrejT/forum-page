@@ -1,7 +1,8 @@
-export default function Post(){
+
+export default function Post({ role }){
     return (
         <div>
-        <p>create a new post</p>
+            now loaded new post route
         </div>
     )
 }

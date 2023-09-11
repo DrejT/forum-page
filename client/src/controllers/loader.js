@@ -3,9 +3,14 @@ import Cookies from "js-cookie";
 const serverAddress = "http://localhost:3000/"
 
 async function fetchUserById(userid) {
-    const data = await fetch(serverAddress + "user/id/" + userid);
+    if (userid){
+        const data = await fetch(serverAddress + "user/id/" + userid);
     const user = await data.json();
     return user;
+    } else {
+        return null;
+    }
+    
 }
 
 export function getUserId() {
@@ -13,7 +18,11 @@ export function getUserId() {
     if (userid) {
         return userid;
     } else {
-        return null;
+        Cookies.set("userid", "guest");
+        return {
+            userid:"guest",
+            _id:"guest"
+        };;
     }
 }
 
@@ -23,10 +32,7 @@ export async function layoutLoader({ request, params }) {
         const user = await fetchUserById(userid);
         return user;
     } else {
-        Cookies.set("userid", "guest");
-        return {
-            userid:"guest"
-        };
+        return userid;
     }
 }
 
@@ -35,7 +41,7 @@ export async function usernameLoader({ request, params }) {
     const data = await fetch(serverAddress + "user/" + username);
     const user = await data.json();
     if (user.message) {
-        return null;
+        return "user does not exists";
     } else {
         return user;
     }
