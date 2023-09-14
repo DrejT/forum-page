@@ -2,6 +2,9 @@ import Create from "../create/create"
 
 export default function Display({ viewer, userData }) {
     if (viewer === "user") {
+        // return if the user is loggedin
+        // and display the create options
+        // and the forms
         return (
             <>
                 <h2>{userData.username}</h2>
@@ -16,7 +19,7 @@ export default function Display({ viewer, userData }) {
     } else {
         return (
             <>
-                <Create />
+                {/* add code to GET requests to showcase all posts and threads as a guest */}
             </>
         )
     }

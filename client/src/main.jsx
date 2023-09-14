@@ -39,6 +39,26 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
+        path:"api",
+        children:[
+          {
+            path:"user"
+          },
+          {
+            path:"section"
+          },
+          {
+            path:"thread"
+          },
+          {
+            path:"post"
+          },
+          {
+            path:"comment"
+          }
+        ]
+      },
+      {
         path: "login",
         element: <Login />,
         action: loginAction

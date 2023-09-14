@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Section = require("./../models/section")
+const Section = require("./../models/section");
+const { validateRole } = require("../utils/validate");
 
 // get all sections
 router.get("/", async (req,res) => {
@@ -19,17 +20,22 @@ router.get("/:id", getSection, async (req,res) => {
 
 // create a new section
 router.post("/", async (req,res) => {
-    const section = await Section.create({
-        "name": req.body.name,
-        "author": req.body.author,
-        "thread":req.body.thread,
-    });
-    try {
-        const newSection = await Section.Save();
-        res.status(201).json(newSection);
-    } catch (err) {
-        res.status(400).json({message:err.error});
+    const isAdmin = await validateRole(req.body.authorId);
+    if (isAdmin){
+        const section = await Section.create({
+            "name": req.body.name,
+            "authorId": req.body.authorId,
+        });
+        try {
+            const newSection = await section.Save();
+            res.status(201).json(newSection);
+        } catch (err) {
+            res.status(400).json({message:err.error});
+        }
+    } else {
+        return res.status(400).json({message:"you do not have the permission"})
     }
+    
 })
 
 // update the name of a section
@@ -48,7 +54,7 @@ router.patch("/:id", getSection, async (req,res) => {
 // dekete an existing section
 router.delete("/:id", getSection, async (req,res) => {
     try {
-        await res.Section.deleteOne({id:req.params.id});
+        await res.section.deleteOne({id:req.params.id});
         res.json({message:"Section deleted"});
     } catch (err) {
         res.status(500).json({message:err.message});

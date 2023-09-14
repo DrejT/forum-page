@@ -4,6 +4,7 @@ const CreateThread = () => {
   const fetcher = useFetcher()
   return (
     <>
+    <h3>Thread Form (Admins only)</h3>
     <div>
     <fetcher.Form method="post" action=""> 
       <label htmlFor="threadName">Thread name</label>
