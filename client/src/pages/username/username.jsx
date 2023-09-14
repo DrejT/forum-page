@@ -1,8 +1,9 @@
 import { useLoaderData, useRouteLoaderData } from "react-router-dom"
 import { Link } from "react-router-dom";
 import Create from "../../components/create/create";
+import Profile from "../../components/profile/profile";
 
-export default function Username(){
+export default function Username() {
     const loaderData = useLoaderData();
     const loggedIn = useRouteLoaderData("layout");
     return (
@@ -10,23 +11,12 @@ export default function Username(){
             {
                 loaderData === "user does not exists" ? (
                     <>User not found</>
-                ):(
+                ) : (
                     <>
-                    <h3>{loaderData.username}</h3></>
-                )
-            }
-            <>{
-                loaderData._id === loggedIn._id ? (
-                    <>
-                    Create
-                    <Create role={loggedIn.role}/>
-                    </>
-                ):(
-                    <>
+                    <Profile loggedin={loaderData._id === loggedIn._id} userData={loaderData}/>
                     </>
                 )
             }
-            </>
         </div>
     )
 }

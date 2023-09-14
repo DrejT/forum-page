@@ -1,12 +1,13 @@
 import Cookies from "js-cookie";
+import { redirect } from "react-router-dom";
 
 const serverAddress = "http://localhost:3000/"
 
 async function fetchUserById(userid) {
     if (userid){
         const data = await fetch(serverAddress + "user/id/" + userid);
-    const user = await data.json();
-    return user;
+        const user = await data.json();
+        return user;
     } else {
         return null;
     }
@@ -19,20 +20,17 @@ export function getUserId() {
         return userid;
     } else {
         Cookies.set("userid", "guest");
-        return {
-            userid:"guest",
-            _id:"guest"
-        };;
+        return "guest"
     }
 }
 
 export async function layoutLoader({ request, params }) {
     const userid = getUserId();
-    if (userid !== "guest") {
+    if (userid === "guest") {
+        return userid;
+    } else {
         const user = await fetchUserById(userid);
         return user;
-    } else {
-        return userid;
     }
 }
 
@@ -57,4 +55,9 @@ export async function searchUsernameLoader({ request, params }) {
     } else {
         return null
     }
+}
+
+export async function logoutLoader({request, params}){
+    Cookies.remove("userid")
+    return redirect("/");
 }

@@ -9,6 +9,7 @@ import { Notfound } from './pages/pageload.jsx';
 import {
   Login,
   Signup,
+  Logout
 } from './components/compload.jsx';
 import {
   signupAction,
@@ -18,10 +19,11 @@ import Home from './pages/home/home.jsx';
 import { 
   layoutLoader,
   usernameLoader,
-  searchUsernameLoader
+  searchUsernameLoader,
+  logoutLoader
  } from './controllers/loader.js';
-import Username from './pages/:username/username.jsx';
-import Post from './pages/:username/new/post.jsx';
+import Username from './pages/username/username.jsx';
+import Post from './pages/username/new/post.jsx';
 import U from './pages/U/U.jsx';
 
 const router = createBrowserRouter([
@@ -47,6 +49,11 @@ const router = createBrowserRouter([
         action: signupAction,
       },
       {
+        path: "logout",
+        element: <Logout/>,
+        loader: logoutLoader,
+      },
+      {
         path: "u",
         element: <U />,
         loader: searchUsernameLoader,
@@ -55,7 +62,7 @@ const router = createBrowserRouter([
             path: ":username",
             element: <Username />,
             loader: usernameLoader,
-            children: [
+            children: [ 
               {
                 path: "new",
                 element: <Post />

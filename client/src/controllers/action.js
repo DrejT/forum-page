@@ -59,7 +59,6 @@ export async function loginAction({ request, params }) {
     console.log(error);
   } finally {
     if (data.message === "login successful") {
-      console.log(data);
       Cookies.set("userid", data.user._id, { expires: 3 });
       return redirect("/");
     } else {
@@ -67,5 +66,3 @@ export async function loginAction({ request, params }) {
     }
   }
 }
-
-

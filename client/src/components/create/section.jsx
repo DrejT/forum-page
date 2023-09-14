@@ -4,11 +4,10 @@ const CreateSection = () => {
   const fetcher = useFetcher();
   return (
     <>
-    <fetcher.Form method="post" action="/some/route">
-      <input type="text" />
+    <fetcher.Form method="post" action=""> 
       <label htmlFor="sectionName">Section name</label>
       <input type="text" name="sectionName" />
-      <button type="submit">Submit</button>
+      <button type="submit">Create</button>
     </fetcher.Form>
     </>
   );
