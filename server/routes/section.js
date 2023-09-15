@@ -21,6 +21,7 @@ router.get("/:id", getSection, async (req,res) => {
 // create a new section
 router.post("/", async (req,res) => {
     const isAdmin = await validateRole(req.body.authorId);
+    console.log(isAdmin);
     if (isAdmin){
         const section = await Section.create({
             "name": req.body.name,
@@ -28,9 +29,9 @@ router.post("/", async (req,res) => {
         });
         try {
             const newSection = await section.Save();
-            res.status(201).json(newSection);
+            return res.status(201).json({section:newSection,message:"section created successfully"});
         } catch (err) {
-            res.status(400).json({message:err.error});
+            return res.status(400).json({message:err.error});
         }
     } else {
         return res.status(400).json({message:"you do not have the permission"})

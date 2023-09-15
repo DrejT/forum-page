@@ -1,4 +1,5 @@
 import Create from "../create/create"
+import GetAllPosts from "../getallposts"
 
 export default function Display({ viewer, userData }) {
     if (viewer === "user") {
@@ -9,6 +10,7 @@ export default function Display({ viewer, userData }) {
             <>
                 <h2>{userData.username}</h2>
                 <div id="posts">
+                    <GetAllPosts user={userData}/>
                 </div>
                 <div id="admin-stuff">
                     <Create role={userData.role} />

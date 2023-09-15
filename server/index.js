@@ -32,7 +32,6 @@ app.use("/comment", comments);
 app.use("/section", sections);
 
 
-
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

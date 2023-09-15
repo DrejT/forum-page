@@ -1,6 +1,4 @@
-import { useLoaderData, useRouteLoaderData } from "react-router-dom"
-import { Link } from "react-router-dom";
-import Create from "../../components/create/create";
+import { useLoaderData, useRouteLoaderData } from "react-router-dom";
 import Profile from "../../components/profile/profile";
 
 export default function Username() {
