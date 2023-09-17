@@ -14,8 +14,8 @@ const CreateSection = () => {
       </fetcher.Form>
       <div>
         {
-          fetcher.state === "loading" ? <>form submitted</> :
           fetcher.state === "submitting" ? <>submitting form</> :
+          fetcher.data !== undefined ? <>{fetcher.data.message}</> :
           <></>
         }
       </div>

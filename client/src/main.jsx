@@ -27,6 +27,7 @@ import Post from './pages/username/new/post.jsx';
 import U from './pages/U/U.jsx';
 import { sectionAction } from './api/section.js';
 import { postsAction } from './api/post.js';
+import { threadAction } from './api/thread.js';
 
 const router = createBrowserRouter([
   {
@@ -51,7 +52,8 @@ const router = createBrowserRouter([
             action:sectionAction,
           },
           {
-            path:"thread"
+            path:"thread",
+            action:threadAction
           },
           {
             path:"post",
