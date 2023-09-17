@@ -48,7 +48,7 @@ const router = createBrowserRouter([
           },
           {
             path:"section",
-            action:sectionAction
+            action:sectionAction,
           },
           {
             path:"thread"

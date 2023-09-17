@@ -4,10 +4,17 @@ import { json } from "react-router-dom";
 const SERVER_ADDRESS = "http://localhost:3000/"
 
 export async function sectionAction({ request, params }) {
+    console.log("inside section action");
     const formData = await request.formData();
     const formtype = formData.get("formtype");
     const userid = Cookies.get("userid");
+    console.log(formtype, userid)
     switch (formtype) {
+        case "get":
+            console.log("inside get")
+            const sectionlist = formData.get("section");
+            return null
+            break;
         case "post":
             const sectionName = formData.get("sectionName");
             const data = await fetch(SERVER_ADDRESS + "section", {
@@ -28,6 +35,7 @@ export async function sectionAction({ request, params }) {
             } else {
                 return false;
             }
+            break // cautionary break to exit
         case "patch": // put replaces the existing resource entirely with the given payload
 
         case "delete":

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {SectionSchema} = require("./section")
 
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
@@ -6,7 +7,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     role: { type: String, enum: ['user', 'admin'], default: 'user'},
     post: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}],
-    section: [{type: mongoose.Schema.Types.ObjectId, ref: 'Section'}],
+    section: [SectionSchema],
     thread: [{type: mongoose.Schema.Types.ObjectId, ref: 'Thread'}],
     createdAt: { type: Date, default: Date.now},
 });

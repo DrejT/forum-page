@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const Section = require("./../models/section");
+const {Section} = require("./../models/section");
 const { validateRole } = require("../utils/validate");
+const User = require("./../models/user")
 
 // get all sections
 router.get("/", async (req,res) => {
@@ -28,7 +29,13 @@ router.post("/", async (req,res) => {
             "authorId": req.body.authorId,
         });
         try {
-            const newSection = await section.Save();
+            const newSection = await section.save();
+
+            // save the section on the user object
+            const user = await User.findById(req.body.authorId);
+            user.section.push(newSection);
+            await user.save();
+
             return res.status(201).json({section:newSection,message:"section created successfully"});
         } catch (err) {
             return res.status(400).json({message:err.error});

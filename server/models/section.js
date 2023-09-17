@@ -7,4 +7,8 @@ const SectionSchema = new mongoose.Schema({
     createdAt:  { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Section", SectionSchema);
+const Section = mongoose.model("Section", SectionSchema);
+module.exports = {
+    SectionSchema,
+    Section
+}

@@ -3,7 +3,6 @@ import {  useFetcher } from "react-router-dom"
 const CreateSection = () => {
   const fetcher = useFetcher();
   // console.log(fetcher.formAction)
-  console.log("fetcher state", fetcher.data);
   return (
     <>
       <h3>Section Form (Admins only)</h3>

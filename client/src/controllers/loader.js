@@ -51,13 +51,14 @@ export async function searchUsernameLoader({ request, params }) {
     if (username){
         const data = await fetch(serverAddress + "user/" + username);
         const user = await data.json();
-        return user
+        return user;
     } else {
-        return null
+        return null;
     }
 }
 
 export async function logoutLoader({request, params}){
-    Cookies.remove("userid")
+    Cookies.remove("userid");
+    Cookies.set("userid", "guest");
     return redirect("/");
 }
