@@ -16,7 +16,7 @@ const Navbar = () => {
           ):(
             <>
             <Link to={"u/"+layoutData.username}>{layoutData.username} !</Link> |
-            <Link to="/logout"> logout</Link>
+            <Link to="/logout" reloadDocument> logout</Link>
             </>
           )
         }
