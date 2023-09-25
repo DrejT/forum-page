@@ -5,7 +5,7 @@ const CreatePost = () => {
   return (
     <div>
       <h3>Post Form</h3>
-      <fetcher.Form method="post" action="api/post"> 
+      <fetcher.Form method="post" action="/api/post"> 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" />
       <button type="submit">Create</button>

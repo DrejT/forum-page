@@ -148,7 +148,9 @@ router.delete("/:username", getUser, async (req, res) => {
 async function getUser(req, res, next) {
     let user
     try {
-        user = await User.findOne({username:req.params.username}).populate("section");
+        user = await User.findOne({username:req.params.username})
+        .populate("section")
+        .populate("thread");
         if (user == null) {
             return res.status(404).json({ message: "user not found" });
         }

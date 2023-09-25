@@ -5,6 +5,7 @@ const threadSchema = new mongoose.Schema({
     description: { type: String, required: true},
     author: { type: mongoose.Schema.Types.ObjectId, ref:"User"},
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+    slug: { type: String },
     createdAt: { type: Date, default: Date.now },
 });
 

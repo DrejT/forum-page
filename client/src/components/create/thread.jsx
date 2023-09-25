@@ -8,8 +8,8 @@ const CreateThread = () => {
 
   const [sectionList, setSectionList] = useState([]);
 
-  async function fetchSectionList(){
-    const data = await fetch(SERVER_ADDRESS+"section");
+  async function fetchSectionList() {
+    const data = await fetch(SERVER_ADDRESS + "section");
     const sectionList = await data.json();
     return setSectionList(sectionList);
   }
@@ -17,7 +17,6 @@ const CreateThread = () => {
   useEffect(() => {
     fetchSectionList()
   }, [])
-  console.log(sectionList)
   return (
     <>
       <h3>Thread Form (Admins only)</h3>
@@ -25,18 +24,17 @@ const CreateThread = () => {
         <fetcher.Form method="post" action="/api/thread">
           <label htmlFor="threadName">Thread name</label>
           <input type="text" name="threadName" />
-          <label htmlFor="SectionName">Section name</label>
+          <label htmlFor="threadDesc">Thread description</label>
+          <input type="text" name="threadDesc" />
+          <label htmlFor="sectionName">Section name</label>
           <select name="sectionName">
-            {
-              sectionList.map((sectionObj) => {
-                return (
-                  <>
-                  <option value={sectionObj.name}>{sectionObj.name}</option>
-                  </>
-                )
-              })
-            }
+            {sectionList.map((sectionObj) => (
+              <option key={sectionObj._id} value={sectionObj.name}>
+                {sectionObj.name}
+              </option>
+            ))}
           </select>
+          <input type="hidden" name="formtype" value="post" />
           <button type="submit">Create</button>
         </fetcher.Form>
       </div>

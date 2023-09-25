@@ -1,5 +1,8 @@
-import Create from "../create/create"
+import CreatePost from "../create/post"
+import CreateSection from "../create/section"
+import CreateThread from "../create/thread"
 import GetAllSections from "../getallsections"
+import GetAllThreads from "../getallthreads"
 // import GetAllPosts from "../getallposts"
 
 export default function Display({ viewer, userData }) {
@@ -13,18 +16,44 @@ export default function Display({ viewer, userData }) {
                 <div id="posts">
                 </div>
                 {
-                    userData.role === "admin"?(
+                    // this if else loops makes sure that if user is admin
+                    // then all the options are visible to the user
+                    // like thread and section, whereas if the user is not
+                    // admin than only the form to create posts is visible
+                    userData.role === "admin" ? (
                         <>
-                        <h5>Sections</h5>
-                        <GetAllSections user={userData} />
+                            <div className="section">
+                                <h5>Sections</h5>
+                                <GetAllSections user={userData} />
+                                <CreateSection />
+                            </div>
+                            <div className="thread">
+                                <h5>Threads</h5>
+                                <GetAllThreads user={userData} />
+                                <CreateThread />
+                            </div>
+                            <div className="post">
+                                <h5>Posts</h5>
+                                {
+                                    // get all posts
+                                }
+                                <CreatePost />
+                            </div>
                         </>
-                    ):(
-                        <></>
+                    ) : (
+                        // show the a normal users create section
+                        <>
+                            <div className="post">
+                                <h5>Posts</h5>
+                                {
+                                    // get all posts
+                                }
+                                <CreatePost />
+                            </div>
+                        </>
                     )
                 }
-                <div id="admin-stuff">
-                    <Create role={userData.role} />
-                </div>
+
                 {/* <CreatePost /> */}
             </>
         )
