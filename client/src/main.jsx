@@ -97,6 +97,14 @@ const router = createBrowserRouter([
           }
         ]
       },
+      {
+        path:"t",
+        children: [
+          {
+            path:":threadname"
+          }
+        ]
+      }
     ]
   },
 ]);

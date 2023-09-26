@@ -1,8 +1,12 @@
+import { useOutletContext } from "react-router-dom";
+import Forum from "../../components/home/forum";
+
 const Home = () => {
+  const [sections] = useOutletContext();
   return (
     <>
-    <div>
-      Student Forums
+    <div id="forum">
+      <Forum sectionList={sections}/>
     </div>
     </>
   )

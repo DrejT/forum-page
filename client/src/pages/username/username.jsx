@@ -3,7 +3,8 @@ import Profile from "../../components/profile/profile";
 
 export default function Username() {
     const loaderData = useLoaderData();
-    const loggedIn = useRouteLoaderData("layout");
+    const loggedInData = useRouteLoaderData("layout");
+    console.log(loggedInData);
     return (
         <div>
             {
@@ -11,7 +12,7 @@ export default function Username() {
                     <>User not found</>
                 ) : (
                     <>
-                    <Profile loggedin={loaderData._id === loggedIn._id} userData={loaderData}/>
+                        <Profile loggedin={loaderData._id === loggedInData.loggedInUser._id} userData={loaderData} />
                     </>
                 )
             }

@@ -1,21 +1,21 @@
-import { Link, useRouteLoaderData } from "react-router-dom"
+import { Link } from "react-router-dom"
 
-const Navbar = () => {
-  const layoutData = useRouteLoaderData("layout");
+const Navbar = ({user}) => {
   return (
     <div>
       <nav className="">
         <Link to="/">Home</Link> |
         <Link to="about">About</Link> |
+        <Link to="u">Search</Link> |
         <Link to="/">Portfolio</Link> |
         {
-          layoutData === "guest" ? (
+          user === false ? (
             <>
             <Link to="signup">Get Started</Link>
             </>
           ):(
             <>
-            <Link to={"u/"+layoutData.username}>{layoutData.username} !</Link> |
+            <Link to={"u/"+user.username}>{user.username} !</Link> |
             <Link to="/logout" reloadDocument> logout</Link>
             </>
           )

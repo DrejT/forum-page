@@ -24,7 +24,9 @@ router.get("/:username", getUser, async (req, res) => {
 router.get("/id/:id", async (req, res) => {
     let user
     try {
-        user = await User.findById(req.params.id);
+        user = await User.findById(req.params.id)
+        .populate("section")
+        .populate("thread");
         if (user == null) {
             return res.status(404).json({ message: "user not found" });
         }

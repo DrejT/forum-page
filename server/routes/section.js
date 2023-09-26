@@ -8,7 +8,8 @@ const { sectionExists } = require("./../utils/section");
 // get all sections
 router.get("/", async (req, res) => {
     try {
-        const sections = await Section.find();
+        const sections = await Section.find()
+        .populate("thread");
         res.json(sections);
     } catch (err) {
         res.status(500).json({ message: err.error });
@@ -53,14 +54,14 @@ router.patch("/:id", getSection, async (req, res) => {
     if (req.body.name != null && req.body.name.length > 3) {
         res.section.name = req.body.name;
     } else {
-        return res.json({message:"name should be longer than 3 letters"})
+        return res.json({ message: "name should be longer than 3 letters" })
     }
     try {
         const updatedSection = await res.section.save();
         res.status(200).json(updatedSection);
     } catch (err) {
         res.status(400).json({ message: err.message })
-    } 
+    }
 })
 
 // dekete an existing section
@@ -77,7 +78,6 @@ async function getSection(req, res, next) {
     let section;
     try {
         section = await Section.findById(req.params.id);
-        
         if (section == null) {
             return res.status(404).json({ message: "section not found" });
         }

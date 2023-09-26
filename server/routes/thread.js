@@ -59,9 +59,13 @@ router.patch("/:id", getThread, async (req, res) => {
     if (req.body.title != null) {
         res.thread.title = req.body.title;
     }
-    if (req.body.category != null) {
-        res.thread.category = req.body.category;
+    if (req.body.description != null) {
+        res.thread.description = req.body.description;
     }
+    // refactoring required for section exist bool
+    // const sectionExistBool = req.body.section?await sectionExists(req.body.section):false;
+    // if (sectionExistBool){
+    // }
     try {
         const updatedThread = await res.thread.save();
         console.log("updated thread is ", updatedThread);

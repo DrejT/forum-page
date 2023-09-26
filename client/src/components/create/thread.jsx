@@ -1,22 +1,9 @@
-import { useEffect, useState } from "react";
-import { useFetcher, useSubmit } from "react-router-dom"
-
-const SERVER_ADDRESS = "http://localhost:3000/"
+import { useFetcher } from "react-router-dom"
+import getSectionList from "../../hooks/getsectionlist";
 
 const CreateThread = () => {
   const fetcher = useFetcher();
-
-  const [sectionList, setSectionList] = useState([]);
-
-  async function fetchSectionList() {
-    const data = await fetch(SERVER_ADDRESS + "section");
-    const sectionList = await data.json();
-    return setSectionList(sectionList);
-  }
-
-  useEffect(() => {
-    fetchSectionList()
-  }, [])
+  const sectionList = getSectionList();  
   return (
     <>
       <h3>Thread Form (Admins only)</h3>
