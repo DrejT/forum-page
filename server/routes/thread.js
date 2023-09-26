@@ -79,9 +79,25 @@ router.patch("/:id", getThread, async (req, res) => {
 router.delete("/:id", getThread, async (req, res) => {
     try {
         await res.thread.deleteOne({ id: req.params.id });
+        const section = await Section.findById(req.body.sectionId);
+        const user = await User.findById(req.body.userId);
+        // if user and the section in which the thread is referenced exist
+        // then find and pop out the thread references and save the objects
+        if (section && user) {
+            const sectionThreadIndex = section.thread.findIndex((threadObj) => {
+                return threadObj._id === req.params.id;
+            });
+            section.thread.pop(sectionThreadIndex);
+            await section.save();
+            const userThreadIndex = user.thread.findIndex((threadId) => {
+                return threadId === req.params.id;
+            })
+            user.thread.pop(userThreadIndex);
+            await user.save();
+        }
         res.json({ message: "thread deleted" });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err.error });
     }
 })
 

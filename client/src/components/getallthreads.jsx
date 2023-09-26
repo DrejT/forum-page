@@ -8,10 +8,12 @@ export default function GetAllThreads({ user }) {
         <>
             {
                 user.thread.map((thread) => {
-                    let threadSection;
+                    let threadSection, sectionId;
                     user.section.map((section) => {
-                        if (section.thread.includes(thread._id))
+                        if (section.thread.includes(thread._id)) {
                             threadSection = section.name;
+                            sectionId = section._id;
+                        }
                     });
                     return (
                         <div key={thread._id} style={{ "border": "solid" }}>
@@ -34,6 +36,12 @@ export default function GetAllThreads({ user }) {
                                 <input name="threadId" type="hidden" value={thread._id} />
                                 <input name="formtype" type="hidden" value={"patch"} />
                                 <button type="submit">edit thread</button>
+                            </fetcher.Form>
+                            <fetcher.Form method="delete" action="/api/thread">
+                                <input name="formtype" type="hidden" value={"delete"} />
+                                <input name="threadId" type="hidden" value={thread._id} />
+                                <input name="sectionId" type="hidden" value={sectionId} />
+                                <button type="submit">delete</button>
                             </fetcher.Form>
                         </div>
                     )
