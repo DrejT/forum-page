@@ -4,6 +4,7 @@ const Thread = require("./../models/thread");
 const User = require("./../models/user");
 const { validateRole } = require("../utils/validate");
 const { Section } = require("../models/section");
+const { fetchThread } = require("./../utils/thread");
 
 // get all threads
 router.get("/", async (req, res) => {
@@ -18,6 +19,21 @@ router.get("/", async (req, res) => {
 // get a particular thread
 router.get("/:id", getThread, async (req, res) => {
     res.send(res.thread)
+})
+
+// get a thread from their slug field
+router.get("/slug/:threadslug", async (req, res) => {
+    try {
+        const threadSlug = req.params.threadslug;
+        const thread = typeof threadSlug === "string"?await fetchThread(threadSlug):false;
+        if (thread){
+            return res.json({thread:thread});
+        } else {
+            return res.status(404).json({message:"thread not found"});
+        }
+    } catch (err) {
+        res.status(404).json({message:err.error})
+    }
 })
 
 // create a new thread

@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import { redirect } from "react-router-dom";
-import { fetchSection } from "./../utils/fetchsection";
+import { SERVER_ADDRESS, fetchSection } from "./../utils/fetchsection";
+import { fetchThreadBySlug } from "../utils/fetchthread";
 
 const serverAddress = "http://localhost:3000/"
 
@@ -69,4 +70,14 @@ export async function logoutLoader({ request, params }) {
     Cookies.remove("userid");
     Cookies.set("userid", "guest");
     return redirect("/");
+}
+
+export async function threadLoader({ request, params }) {
+    const threadSlug = params.threadslug;
+    const thread = await fetchThreadBySlug(threadSlug);
+    if (thread) {
+        return thread;
+    } else {
+        return null;
+    }
 }

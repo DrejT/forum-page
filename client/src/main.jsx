@@ -20,7 +20,8 @@ import {
   layoutLoader,
   usernameLoader,
   searchUsernameLoader,
-  logoutLoader
+  logoutLoader,
+  threadLoader
  } from './controllers/loader.js';
 import Username from './pages/username/username.jsx';
 import Post from './pages/username/new/post.jsx';
@@ -28,6 +29,8 @@ import U from './pages/U/U.jsx';
 import { sectionAction } from './api/section.js';
 import { postsAction } from './api/post.js';
 import { threadAction } from './api/thread.js';
+import T from './pages/T/T.jsx';
+import ThreadSlug from './pages/T/threadslug.jsx';
 
 const router = createBrowserRouter([
   {
@@ -99,9 +102,12 @@ const router = createBrowserRouter([
       },
       {
         path:"t",
+        element:<T />,
         children: [
           {
-            path:":threadname"
+            path:":threadslug",
+            element:<ThreadSlug />,
+            loader: threadLoader
           }
         ]
       }
