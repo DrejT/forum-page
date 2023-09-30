@@ -21,7 +21,7 @@ export default function ThreadSlug() {
                                 threadLoaderData.thread.posts.map((postObj) => {
                                     return (
                                         <div key={postObj._id}>
-                                            <Link to={"/p/" + postObj.slug}>{postObj.title}</Link>
+                                            <Link to={"/p/" + postObj.slug} state={postObj}>{postObj.title}</Link>
                                         </div>
                                     )
                                 })
