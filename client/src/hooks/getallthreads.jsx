@@ -14,6 +14,6 @@ export default function getThreadList(){
     useEffect(() => {
       fetchThreadList()
     }, [])
-    return threadList;
+    return ThreadList;
   }
   

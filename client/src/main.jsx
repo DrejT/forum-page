@@ -116,7 +116,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: ":postslug",
-            element: <PostSlug />,
+            element: <PostSlug />
           }
         ]
       }

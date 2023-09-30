@@ -2,7 +2,6 @@ import { Link, useLoaderData } from "react-router-dom"
 
 export default function ThreadSlug() {
     const threadLoaderData = useLoaderData()
-    console.log(threadLoaderData)
     return (
         <>
             {
@@ -21,7 +20,7 @@ export default function ThreadSlug() {
                                 threadLoaderData.thread.posts.map((postObj) => {
                                     return (
                                         <div key={postObj._id}>
-                                            <Link to={"/p/" + postObj.slug} state={postObj}>{postObj.title}</Link>
+                                            <Link to={"/p/" + postObj.slug} state={{"thread":threadLoaderData.thread.title, obj:postObj}}>{postObj.title}</Link>
                                         </div>
                                     )
                                 })
