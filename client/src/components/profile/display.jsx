@@ -1,4 +1,4 @@
-import CreatePost from "../create/post"
+import { Link } from "react-router-dom"
 import CreateSection from "../create/section"
 import CreateThread from "../create/thread"
 import GetAllSections from "../getallsections"
@@ -14,6 +14,9 @@ export default function Display({ viewer, userData }) {
             <>
                 <h2>{userData.username}</h2>
                 <div id="posts">
+                    <div id="create-post">
+                        <Link to={"new"}>create post</Link>
+                    </div>
                 </div>
                 {
                     // this if else loops makes sure that if user is admin
@@ -32,29 +35,20 @@ export default function Display({ viewer, userData }) {
                                 <GetAllThreads user={userData} />
                                 <CreateThread />
                             </div>
-                            <div className="post">
-                                <h5>Posts</h5>
-                                {
-                                    // get all posts
-                                }
-                                <CreatePost />
-                            </div>
+
                         </>
                     ) : (
-                        // show the a normal users create section
+                        // If the user is not admin then dont render the admin panel
                         <>
-                            <div className="post">
-                                <h5>Posts</h5>
-                                {
-                                    // get all posts
-                                }
-                                <CreatePost />
-                            </div>
                         </>
                     )
                 }
-
-                {/* <CreatePost /> */}
+                <div className="post">
+                    <h5>Posts</h5>
+                    {
+                        // get all posts
+                    }
+                </div>
             </>
         )
     } else {

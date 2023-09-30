@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import {
@@ -16,21 +16,23 @@ import {
   loginAction,
 } from "./controllers/action.js"
 import Home from './pages/home/home.jsx';
-import { 
+import {
   layoutLoader,
   usernameLoader,
   searchUsernameLoader,
   logoutLoader,
   threadLoader
- } from './controllers/loader.js';
+} from './controllers/loader.js';
 import Username from './pages/username/username.jsx';
-import Post from './pages/username/new/post.jsx';
 import U from './pages/U/U.jsx';
 import { sectionAction } from './api/section.js';
 import { postsAction } from './api/post.js';
 import { threadAction } from './api/thread.js';
 import T from './pages/T/T.jsx';
+import P from "./pages/P/P.jsx"
 import ThreadSlug from './pages/T/threadslug.jsx';
+import PostSlug from './pages/P/postslug.jsx';
+import CreatePost from './components/create/post.jsx';
 
 const router = createBrowserRouter([
   {
@@ -41,29 +43,29 @@ const router = createBrowserRouter([
     errorElement: <Notfound />,
     children: [
       {
-        index:true,
+        index: true,
         element: <Home />
       },
       {
-        path:"api",
-        children:[
+        path: "api",
+        children: [
           {
-            path:"user"
+            path: "user"
           },
           {
-            path:"section",
-            action:sectionAction,
+            path: "section",
+            action: sectionAction,
           },
           {
-            path:"thread",
-            action:threadAction
+            path: "thread",
+            action: threadAction
           },
           {
-            path:"post",
-            action:postsAction
+            path: "post",
+            action: postsAction
           },
           {
-            path:"comment"
+            path: "comment"
           }
         ]
       },
@@ -79,7 +81,7 @@ const router = createBrowserRouter([
       },
       {
         path: "logout",
-        element: <Logout/>,
+        element: <Logout />,
         loader: logoutLoader,
       },
       {
@@ -91,23 +93,30 @@ const router = createBrowserRouter([
             path: ":username",
             element: <Username />,
             loader: usernameLoader,
-            children: [ 
-              {
-                path: "new",
-                element: <Post />
-              }
-            ]
+          }, {
+            path: ":username/new",
+            element: <CreatePost />
           }
         ]
       },
       {
-        path:"t",
-        element:<T />,
+        path: "t",
+        element: <T />,
         children: [
           {
-            path:":threadslug",
-            element:<ThreadSlug />,
+            path: ":threadslug",
+            element: <ThreadSlug />,
             loader: threadLoader
+          }
+        ]
+      },
+      {
+        path: "p",
+        element: <P />,
+        children: [
+          {
+            path: ":postslug",
+            element: <PostSlug />,
           }
         ]
       }

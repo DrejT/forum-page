@@ -4,7 +4,7 @@ const Thread = require("./../models/thread");
 const User = require("./../models/user");
 const { validateRole } = require("../utils/validate");
 const { Section } = require("../models/section");
-const { fetchThread } = require("./../utils/thread");
+const { fetchThreadBySlug } = require("./../utils/thread");
 
 // get all threads
 router.get("/", async (req, res) => {
@@ -25,7 +25,7 @@ router.get("/:id", getThread, async (req, res) => {
 router.get("/slug/:threadslug", async (req, res) => {
     try {
         const threadSlug = req.params.threadslug;
-        const thread = typeof threadSlug === "string"?await fetchThread(threadSlug):false;
+        const thread = typeof threadSlug === "string"?await fetchThreadBySlug(threadSlug):false;
         if (thread){
             return res.json({thread:thread});
         } else {

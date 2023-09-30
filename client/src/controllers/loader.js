@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { redirect } from "react-router-dom";
-import { SERVER_ADDRESS, fetchSection } from "./../utils/fetchsection";
+import { fetchSection } from "./../utils/fetchsection";
 import { fetchThreadBySlug } from "../utils/fetchthread";
 
 const serverAddress = "http://localhost:3000/"
