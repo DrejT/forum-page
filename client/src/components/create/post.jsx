@@ -1,13 +1,12 @@
-import { useFetcher } from "react-router-dom"
 import getThreadList from "../../hooks/getallthreads"
+import { Form } from "react-router-dom";
 
 const CreatePost = ({ role }) => {
-  const fetcher = useFetcher();
   const threadList = getThreadList();
   return (
     <div>
       <h3>Post Form</h3>
-      <fetcher.Form method="post" action="/api/post">
+      <Form method="post" action="/api/post">
         <label htmlFor="title">Title</label>
         <input type="text" name="title" />
         <label htmlFor="content">Content</label>
@@ -20,9 +19,11 @@ const CreatePost = ({ role }) => {
             </option>
           ))}
         </select>
+        <label htmlFor="images">add images</label>
+        <input type="file" name="images" accept="image/*" multiple />
         <input type="hidden" name="formtype" value="post" />
-        <button type="submit">Create</button>
-      </fetcher.Form>
+        <button className="btn" type="submit">Create</button>
+      </Form>
     </div>
   )
 }

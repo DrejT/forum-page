@@ -23,7 +23,7 @@ router.get("/:id", getPost, async (req, res) => {
 router.post("/", async (req, res) => {
     const postUser = await fetchUser(req.body.authorId);
     const thread = typeof req.body.threadId === "string"? await fetchThreadById(req.body.threadId):false;
-    console.log(postUser.username, thread)
+    console.log("the body is ",req.body);
     if (postUser && thread) {
         const post = await Post.create({
             "title": req.body.title,

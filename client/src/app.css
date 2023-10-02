@@ -1,0 +1,25 @@
+/* Remove default styles */
+details>summary {
+    list-style: none;
+    position: relative; /* Add position relative */
+    padding-left: 20px; /* Add some left padding to make space for the arrow */
+}
+
+details>summary::-webkit-details-marker {
+    display: none;
+}
+
+details summary::before {
+    content: "\25B8"; /* Unicode character for a right-facing triangle */
+    display: inline-block;
+    transform: rotate(0deg);
+    margin-right: 4px;
+    transition: transform 0.2s;
+    position: absolute; /* Position absolutely within the summary element */
+    left: 4px; /* Adjust the left position to your desired spacing */
+}
+
+/* Change arrow direction on open */
+details[open] summary::before {
+    transform: rotate(90deg);
+}

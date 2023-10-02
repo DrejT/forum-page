@@ -5,7 +5,7 @@ const Home = () => {
   const [sections] = useOutletContext();
   return (
     <>
-    <div id="forum">
+    <div id="forum" className="">
       <Forum sectionList={sections}/>
     </div>
     </>

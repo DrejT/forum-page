@@ -7,10 +7,10 @@ const Layout = () => {
   const layoutData = useRouteLoaderData("layout");
   return (
     <>
-      <div>
+      <div className="bg-neutral">
         <Navbar user={layoutData.loggedInUser} />
-        <div id="content">
-          <Outlet context={[layoutData.sections]}/>
+        <div id="content" className="flex-auto mt-5">
+          <Outlet context={[layoutData.sections]} />
         </div>
         <Footer />
       </div>
