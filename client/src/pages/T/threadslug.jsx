@@ -10,10 +10,10 @@ export default function ThreadSlug() {
                         {threadLoaderData.message}
                     </>
                 ) : (
-                    <div id="thread">
-                        <div>
-                            <h3>{threadLoaderData.thread.title}</h3>
-                            <p>{threadLoaderData.thread.description}</p>
+                    <div id="thread" className="px-20">
+                        <div className="text-left">
+                            <h4 className="text-sky-400 text-2xl">{threadLoaderData.thread.title}</h4>
+                            <p className="text-sky-800 text-lg">{threadLoaderData.thread.description}</p>
                         </div>
                         {
                             threadLoaderData.thread.posts.length > 0 ? (
