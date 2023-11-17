@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("./../models/user");
 const { validateUserFields, invalidFields } = require("./../utils/validate");
+const { createHash, compareHash } = require("./../utils/hashValidate")
 
 // get all users
 router.get("/", async (req, res) => {
@@ -13,10 +14,29 @@ router.get("/", async (req, res) => {
     }
 })
 
-// get a particular user
-router.get("/:id", getUser, async (req, res) => {
+// get a particular user from their username
+router.get("/:username", getUser, async (req, res) => {
+    res.user.password = "";
+    res.user.email = "";
     res.send(res.user);
 })
+
+router.get("/id/:id", async (req, res) => {
+    let user
+    try {
+        user = await User.findById(req.params.id)
+        .populate("section")
+        .populate("thread");
+        if (user == null) {
+            return res.status(404).json({ message: "user not found" });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: "internal server error" });
+    }
+    user.password = "";
+    user.email = "";
+    res.send(user);
+});
 
 // create a new user
 router.post("/", async (req, res) => {
@@ -40,10 +60,11 @@ router.post("/", async (req, res) => {
                 && existBool.email === false
             ) {
                 try {
+                    const passwordHash = await createHash(req.body.password);
                     const user = await User.create({
                         "username": req.body.username,
                         "email": req.body.email,
-                        "password": req.body.password,
+                        "password": passwordHash,
                         "role": req.body.role === "admin" ? "admin" : "user"
                     });
                     const newUser = await user.save();
@@ -79,7 +100,8 @@ router.post("/", async (req, res) => {
                 const user = await User.findOne({
                     username: req.body.username,
                 });
-                if (user.password === req.body.password) {
+                const validPassword = await compareHash(req.body.password, user.password);
+                if (validPassword) {
                     user.password = "";
                     return res.status(200).json({"user":user,"message":"login successful"});
                 } else {
@@ -103,7 +125,7 @@ router.post("/", async (req, res) => {
 });
 
 // update the category of a user
-router.patch("/:id", getUser, async (req, res) => {
+router.patch("/:username", getUser, async (req, res) => {
     if (req.body.email != null) {
         res.user.email = req.body.email;
     }
@@ -116,9 +138,9 @@ router.patch("/:id", getUser, async (req, res) => {
 })
 
 // dekete an existing user
-router.delete("/:id", getUser, async (req, res) => {
+router.delete("/:username", getUser, async (req, res) => {
     try {
-        await res.user.deleteOne({ id: req.params.id });
+        await res.user.deleteOne({ username: req.params.username });
         res.json({ message: "user deleted" });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -128,7 +150,9 @@ router.delete("/:id", getUser, async (req, res) => {
 async function getUser(req, res, next) {
     let user
     try {
-        user = await User.findById(req.params.id);
+        user = await User.findOne({username:req.params.username})
+        .populate("section")
+        .populate("thread");
         if (user == null) {
             return res.status(404).json({ message: "user not found" });
         }

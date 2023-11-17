@@ -1,12 +1,10 @@
-import { useLoaderData } from 'react-router-dom';
+import "./index.css"
+import "./app.css"
 import Layout from './pages/layout/layout';
 
 function App() {
-  const loaderData = useLoaderData();
   return (
-    <>
-    <Layout/>
-    </>
+    <Layout />
   )
 }
 

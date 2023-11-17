@@ -128,8 +128,26 @@ async function validateUserFields(username, email, password, formtype){
     }]
 }
 
+async function validateRole(userId){
+    if (typeof userId !== "string"){
+        return false;
+    } else {
+        try {
+            const user = await fetchUser(userId);
+            if (user.role === "admin"){
+                return true;
+            } else {
+                return false;
+            }
+        } catch (err) {
+            return false
+        }
+    }
+}
+
 module.exports = {
     fetchUser,
     validateUserFields,
-    invalidFields
+    invalidFields,
+    validateRole
 }

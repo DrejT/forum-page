@@ -6,6 +6,7 @@ const threads = require("./routes/thread");
 const users = require("./routes/user");
 const posts = require("./routes/post");
 const comments = require("./routes/comment");
+const sections = require("./routes/section");
 
 const MONGO_DB_URL = process.env.MONGO_DB_URL;
 
@@ -28,7 +29,7 @@ app.use("/thread", threads );
 app.use("/user", users);
 app.use("/post", posts);
 app.use("/comment", comments);
-
+app.use("/section", sections);
 
 
 app.get("/", (req, res) => {
